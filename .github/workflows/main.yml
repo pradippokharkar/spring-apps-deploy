@@ -1,4 +1,4 @@
-on: [workflow_dispatch]
+on: workflow_dispatch
 env:
   ASC_PACKAGE_PATH: ${{ github.workspace }}
   JAR_PATH: __tests__/test_apps/target/hello-world.jar
