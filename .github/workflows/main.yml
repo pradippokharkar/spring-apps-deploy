@@ -34,7 +34,7 @@ jobs:
           jvm-options: -Xms512m -Xmx512m
           environment-variables: "-CUSTOMER_NAME Contoso \
           -WEBSITE_TIME_ZONE \"${{ env.VAR1 }}\""
-/
+
       - name: Deploy to production (source)
         uses: Azure/spring-apps-deploy@v1
         with:
