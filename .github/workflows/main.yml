@@ -20,7 +20,16 @@ jobs:
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%m%d')"
-
+     
+      - name: Create or update build
+        uses: azure/spring-apps-deploy@v1
+        with:
+          azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
+          action: build
+          service-name: github-action-standard
+          build-name: <build name>
+          package: ${{ env.ASC_PACKAGE_PATH }}
+          builder: <builder>
       - name: Create Staging Deploy
         uses: Azure/spring-apps-deploy@v1
         with:
@@ -62,60 +71,4 @@ jobs:
           service-name: "github-action-standard-${{ steps.date.outputs.date }}"
           app-name: hello
           use-staging-deployment: false
-
-  Enterprise_tier_deploy_job:
-    runs-on: ubuntu-latest
-    name: Enterprise tier deploy
-    steps:
-      - name: Checkout Github Action
-        uses: actions/checkout@master
-
-      - name: Login via Azure CLI
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_SUBSCRIPTION_SP }}
-
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%m%d')"
-
-      - name: Create Staging Deploy
-        uses: Azure/spring-apps-deploy@v1
-        with:
-          azure-subscription: ${{ secrets.AZURE_SUBSCRIPTION }}
-          action: deploy
-          service-name: "github-action-enterprise-${{ steps.date.outputs.date }}"
-          app-name: hello
-          create-new-deployment: true
-          use-staging-deployment: true
-          package: ${{ github.workspace }}/${{ env.JAR_PATH }}
-          builder: default
-
-      - name: Deploy to production (source)
-        uses: Azure/spring-apps-deploy@v1
-        with:
-          azure-subscription: ${{ secrets.AZURE_SUBSCRIPTION }}
-          action: deploy
-          service-name: "github-action-enterprise-${{ steps.date.outputs.date }}"
-          app-name: hello
-          use-staging-deployment: false
-          package: ${{ github.workspace }}/__tests__/test_apps/source-app
-          builder: default
-
-      - name: Set production
-        uses: Azure/spring-apps-deploy@v1
-        with:
-          azure-subscription: ${{ secrets.AZURE_SUBSCRIPTION }}
-          action: set-production
-          service-name: "github-action-enterprise-${{ steps.date.outputs.date }}"
-          app-name: hello
-          use-staging-deployment: false
-
-      - name: Delete staging deployment
-        uses: Azure/spring-apps-deploy@v1
-        with:
-          azure-subscription: ${{ secrets.AZURE_SUBSCRIPTION }}
-          action: delete-staging-deployment
-          service-name: "github-action-enterprise-${{ steps.date.outputs.date }}"
-          app-name: hello
-          use-staging-deployment: false
+ 
