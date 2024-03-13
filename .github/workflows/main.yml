@@ -26,7 +26,7 @@ jobs:
         with:
           azure-subscription: ${{ secrets.AZURE_SUBSCRIPTION }}
           action: deploy
-          service-name: "ppgithub-action-standard-${{ steps.date.outputs.date }}"
+          service-name: "github-action-standard-${{ steps.date.outputs.date }}"
           app-name: hello
           create-new-deployment: true
           use-staging-deployment: true
