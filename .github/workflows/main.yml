@@ -34,7 +34,7 @@ jobs:
           jvm-options: -Xms512m -Xmx512m
           environment-variables: "-CUSTOMER_NAME Contoso \
           -WEBSITE_TIME_ZONE \"${{ env.VAR1 }}\""
-
+/
       - name: Deploy to production (source)
         uses: Azure/spring-apps-deploy@v1
         with:
@@ -52,7 +52,7 @@ jobs:
           action: set-production
           service-name: "github-action-standard-${{ steps.date.outputs.date }}"
           app-name: hello
-          use-staging-deployment: true
+          use-staging-deployment: false
 
       - name: Delete staging deployment
         uses: Azure/spring-apps-deploy@v1
@@ -61,7 +61,7 @@ jobs:
           action: delete-staging-deployment
           service-name: "github-action-standard-${{ steps.date.outputs.date }}"
           app-name: hello
-          use-staging-deployment: true
+          use-staging-deployment: false
 
   Enterprise_tier_deploy_job:
     runs-on: ubuntu-latest
@@ -109,7 +109,7 @@ jobs:
           action: set-production
           service-name: "github-action-enterprise-${{ steps.date.outputs.date }}"
           app-name: hello
-          use-staging-deployment: true
+          use-staging-deployment: false
 
       - name: Delete staging deployment
         uses: Azure/spring-apps-deploy@v1
@@ -118,4 +118,4 @@ jobs:
           action: delete-staging-deployment
           service-name: "github-action-enterprise-${{ steps.date.outputs.date }}"
           app-name: hello
-          use-staging-deployment: true
+          use-staging-deployment: false
